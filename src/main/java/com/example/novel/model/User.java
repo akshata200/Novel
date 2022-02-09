@@ -1,7 +1,10 @@
-package model;
+package com.example.novel.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,8 +22,15 @@ public class User {
 	private String email;
 	private String password;
 	private String role;
-	private List<String> readingList = null;
-	private List<String> writingList = null;
+	
+	@Column
+	@ElementCollection(targetClass=String.class)
+	private List<String> readingList = new LinkedList<>();
+	
+	@Column
+	@ElementCollection(targetClass=String.class)
+	private List<String> writingList = new LinkedList<>();
+	
 	
 	public User() {
 		
@@ -33,6 +43,8 @@ public class User {
 		this.password = password;
 		this.role = role;
 	}
+	
+	
 
 	public Long getUserId() {
 		return userId;
@@ -74,11 +86,13 @@ public class User {
 		this.role = role;
 	}
 
+	
+	
 	public List<String> getReadingList() {
 		return readingList;
 	}
 
-	public void setReadingList(String bookname) {
+	public void addToReadingList(String bookname) {
 		this.readingList.add(bookname);
 	}
 
@@ -86,11 +100,17 @@ public class User {
 		return writingList;
 	}
 
-	public void setWritingList(String bookname) {
+	public void addToWritingList(String bookname) {
 		this.writingList.add(bookname);
 	}
 	
+	public void removeFromReadingList(String bookname) {
+		this.readingList.remove(bookname);
+	}
 	
-	
+	public void removeFromWritingList(String bookname) {
+		this.writingList.remove(bookname);
+	}
+		
 	
 }
